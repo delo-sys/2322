@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Models\User;
+use App\Sevices\Logservice;
+
+class UserController{
+    public function getUser($id){
+        //Using the imported user class
+        $user =new User($id, "john Doe");
+
+        //Using a class with full namepaces
+        $validator = new \App\Validators\UserValidator();
+
+        //using an aliased class
+        $logger = new LogService();
+
+        return $user;
+    }
+}
