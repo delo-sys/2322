@@ -4,7 +4,7 @@
 require('fpdf/fpdf.php');
 
 // create a PDF class extending FPDF
-class myfpdf extends FPDF{
+class mypdf extends FPDF{
     // page header
     function header() {
         // logo
@@ -38,26 +38,26 @@ class myfpdf extends FPDF{
 // generate  A PDF document 
 function generatePDF($title,$content,$filename='document.pdf'){
     // create a new PDF instance
-    $pdf=new myfdf();
+    $pdf=new mypdf();
 
     // set document information
-    $pdf->setauthor('PHP system');
-    $pdf->title($title);
+    $pdf->SetAuthor('PHP system');
+    $pdf->SetTitle($title);
 
     // set auto page break 
-    $pdf->addpage ();
+    $pdf->Addpage ();
 
     // set font
-    $pdf->write(10,$content);
+    $pdf->Write(10,$content);
 
     // output the PDF 
-    $pdf->output($filename,'D');//'D' means download
+    $pdf->Output($filename,'D');//'D' means download
 } 
 
 // example usage 
 $title="volt verse";
 $content= "this is a sample PDF generated using FPDF libary in PHP./n/n";
-$content= "it demostrates how to create dynamic PDF files from PHP applications";
+$content .= "it demostrates how to create dynamic PDF files from PHP applications";
 
 // call the function to generate and download the PDF
 generatePDF($title,$content,"pop.pdf"); 
