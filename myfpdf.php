@@ -104,16 +104,16 @@ function generateinvoicePDF($invoice_data){
         $total=$item['quantity'] * $item['price'];
         $total_amount+=$total;
 
-        $pdf->cell(90,10,'description',1,0,'C');
-        $pdf->cell(30,10,'quantity',1,0,'C');
-        $pdf->cell(40,10,'Ksh'. number_format($item['price'],2),1,0,'R' );
+        $pdf->cell(90,10,$item['description'],1,0);
+        $pdf->cell(30,10,$item['quantity'],1,0,'C');
+        $pdf->cell(30,10,'Ksh'. number_format($item['price'],2),1,0,'R' );
         $pdf->cell(40,10,'Ksh'. number_format($total,2),1,1,'R' );
     }
 
     // total
     $pdf->setfont ('Arial','B', 12);
-    $pdf->cell(150,10,'quantity',1,0,'R');
-    $pdf->cell(40,10,'Ksh'. number_format($item['price'],2),1,0,'R' );
+    $pdf->cell(150,10,'Total Amount',1,0,'R');
+    $pdf->cell(40,10,'Ksh'. number_format($item['price'],2),1,1,'R' );
 
     // Output the PDF 
     $pdf->output ('invoice_'. $invoice_data['invoice_number'].'.pdf','D');
