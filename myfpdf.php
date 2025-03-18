@@ -96,7 +96,7 @@ function generateinvoicePDF($invoice_data){
     $pdf->cell(30,10,'price',1,0,'C');
     $pdf->cell(40,10,'total',1,1,'C');
 
-    $pdf->setfont('Arial','B,',12);
+    $pdf->setfont('Arial','B',12);
 
     // table data 
     $total_amount = 0;
