@@ -266,7 +266,7 @@ function countUsers($pdo){
 
 // update (UPDATE)
 // 1. Update (UPDATE) -> UPDATE table_name SET column_use = new_value;
-function updateUser($pdo,$userId,$date){
+function updateUser($pdo,$userId,$data){
     try{
         // build the set part of the query dynamically 
         $fields = [];
@@ -280,7 +280,7 @@ function updateUser($pdo,$userId,$date){
         // add the user ID to values 
         $values[':id'] = $userId;
 
-        $sql = "UPDATE users SET " . implode(",", $fields). "WHERE id = :id";
+        $sql = "UPDATE users SET " . implode(", " , $fields). " WHERE id = :id";
 
         $stmt = $pdo->prepare($sql);
         $stmt -> execute($values);
