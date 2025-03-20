@@ -1,7 +1,7 @@
 <?php
 
 class database {
-    private static $istance = null;
+    private static $instance = null;
     private $conn;
 
     // private constructor 
@@ -23,10 +23,10 @@ class database {
 
     // et database instance
     public static function getinstance() {
-        if (self::$istance==-null){
-            self:: $istance= new self;
+        if (self::$instance==-null){
+            self:: $instance= new self;
         }
-        return self :: $istance;
+        return self :: $instance;
     }
 
     // get the PDO connection 
@@ -293,14 +293,94 @@ function updateUser($pdo,$userId,$data){
     }
 }
 
-// usage
-$updated = updateUser($pdo,1,[
-    'username' => 'new_username',
-    'email' => 'new_email@example.com'
-]);
+// // usage
+// $updated = updateUser($pdo,1,[
+//     'username' => 'new_username',
+//     'email' => 'new_email@example.com'
+// ]);
 
-if ($updated){
-    echo "user updated sucessfully . row affected:$updated";
-} else {
-    echo "no changes made or user not found ";
+// if ($updated){
+//     echo "user updated sucessfully . row affected:$updated";
+// } else {
+//     echo "no changes made or user not found ";
+// }
+
+// 3. Updating multiple  records 
+function updateproductprices($pdo,$productId,$percentageincrease){
+    try{
+        $stmt = $pdo->prepare("
+        UPDATE product
+        SET price = price * (1+:percentage/100)
+        WHERE id = :product_id
+        ");
+
+        $stmt->execute([
+            'percentage'=>$percentageincrease,
+            ':product_id'=>$productId
+        ]);
+
+        return $stmt->rowcount();
+
+    }catch (PDOException $e){
+        echo "error updating prices:". $e->getMessage();
+        return false;
+    }
+} 
+
+// // usage
+// $rowsupdated=updateproductprices($pdo,1,5);
+// if ($rowsupdated){
+//     echo "prices updated sussefully.  $rowsupdated product affected ";
+// } else{
+//     echo "product were updated or an error occured .";
+// }
+
+// delete (DELETE)->DELETE FROM table  table_name WHERE column = value;
+// 1. deleting a single record 
+
+function deleteUser($pdo,$userId) {
+    try{
+        $stmt=$pdo->prepare("DELETE FROM users WHERE id = :id");
+        $stmt->execute ([':id'=>$userId]);
+
+        // return number of rows affected
+        return $stmt->rowcount();
+    }catch(PDOException $e){
+        echo "error updating prices:". $e->getMessage();
+        return false;
+    }
+}
+
+// // Usage
+// $deleted = deleteuser($pdo,1);
+// if ($deleted) {
+//     echo "user deleted successfully";
+// }else{
+//     echo"user not found or could not be deleted";
+// }
+
+// 2. soft deletes (marking as deleted instead  of actual delete)
+function softdeleteuser($pdo,$userId) {
+    try{
+        $stmt= $pdo->prepare("
+        UPDATE users 
+        SET delete_at = NOW(), active = 0
+        WHERE id = :id;
+        ");
+        $stmt->execute([':id'=>$userId]);
+
+        // return number of rows affected 
+        return $stmt->rowCount();
+
+    }catch (PDOException $e){
+        echo "Error soft-deleting user:". $e->getMessage();
+        return false;
+    }
+}
+
+$deleteduser =softdeleteuser($pdo,4);
+if ($deleteduser) {
+    echo "user deleted successfully";
+}else{
+    echo"user not found or could not be deleted";
 }
