@@ -4,7 +4,7 @@ class Database {
     private $host =DB_HOST;
     private $user =DB_USER;
     private $pass =DB_PASS;
-    private $dbname =DB_NAME;
+    private $dbname=DB_NAME;
 
     private $conn;
     private $stmt;
@@ -12,10 +12,10 @@ class Database {
 
     public function __construct() {
         // set DSN 
-        $dsn = 'mysql:host='. $this->host . 'dbname=' . $this->dbname;
+        $dsn = 'mysql:host='. $this->host . ';dbname=' . $this->dbname;
         $options = array(
             PDO::ATTR_PERSISTENT => true,
-            PDO::ATTR_EREMODE => PDO::ERRMODE_EXECPTION
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         );
 
         // CREATE PDO INSTANCE
@@ -23,7 +23,7 @@ class Database {
             $this->conn = new PDO ($dsn, $this->user , $this->pass,$options);
         }catch (PDOException $e) {
             $this->error = $e ->getMessage();
-            echo "connection Error:". $this->error;
+            echo "connection Error;". $this->error;
         }
     }    
         // preare statement with qurey 
@@ -53,7 +53,7 @@ class Database {
     // execute the prepare statement
     public function resultSet() {
         $this->execute();
-        return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+        return $this->stmt->execute();
     }
 
     // get single record as object
@@ -63,10 +63,10 @@ class Database {
     }
     // Get row count 
     public function rowcount() {
-        return $this->stmt>rowcount;
+        return $this->stmt>rowcount();
     }
 
-    // get last insert id 
+    // get lastinsertid 
     public function lastInsertId(){
         return $this->stmt->lastInsertId();
     }

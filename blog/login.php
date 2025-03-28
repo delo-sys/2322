@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
         </div>
         <div class="form-group">
             <label for="password">password</label>
-            <input type="text"name = "password" id= "password" value= "<?php echo isset($_POST['password']);''?>"required>
+            <input type="text"name = "password" id= "password"required>
         </div>
 
         <div class="form-group">

@@ -20,7 +20,7 @@ define('BASE_URL','http://localhost/blog');
 
 // autoload classes
 spl_autoload_register(function($className) {
-    $file = __DIR__ .'/classes/'. $className.'.php';
+    $file = __DIR__ .'/../classes/'. $className.'.php';
     if (file_exists($file)) {
         require_once $file;
     }

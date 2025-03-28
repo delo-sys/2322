@@ -43,7 +43,7 @@ class Post{
                     ORDER BY 
                         p.created_at DESC
                           ");
-        // $this->db->bind(':category_id', $category_id);
+        $this->db->bind(':category_id', $category_id);
         $results = $this->db->resultSet();
         return $results;
     }
@@ -62,7 +62,7 @@ class Post{
                     LEFT JOIN 
                         categories c ON p.category_id = c.id
                     WHERE 
-                        p.id = :id
+                        pcategory.id = :id
                     
                   ");
         $this->db->bind(':id', $id);
@@ -115,7 +115,7 @@ class Post{
         }
     }
     // Updating a post
-    public function updatePost($data){
+    public function updatePost($data, $id){
         // Create slug from title
         $slug = $this->createSlug($data['title']);
         $this->db->query("
